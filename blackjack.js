@@ -98,6 +98,7 @@ const hit = () => {
     players[currentPlayer].Hand.push(card);
     renderCard(card, currentPlayer);
     updatePoints();
+    updateDeck();
     check();
 };
 
@@ -108,7 +109,7 @@ const check = () => {
 };
 
 const updateDeck = () => {
-    document.getElementById('deckcount').innerHTML = deck.length;
+    document.getElementById('deckcount').innerHTML = cardDeck.length;
 }
 
 window.addEventListener('load', function(){
@@ -142,14 +143,14 @@ const end = () => {
 
 const renderCard = (card, player) => {
     let hand = document.getElementById('hand_' + player);
-    hand.appendChild(getCardUI(card));
+    hand.appendChild(getCardElement(card));
 };
 
-const getCardUI = (card) => {
-    let cardUI = document.createElement('div');
-    cardUI.className = 'card';
-    cardUI.innterHTML = card.Suit + ' ' + card.Value;
-    return cardUI;
+const getCardElement = (card) => {
+    let cardElement = document.createElement('div');
+    cardElement.className = 'card';
+    cardElement.innterHTML = card.Suit + ' ' + card.Value;
+    return cardElement;
 };
 
 const gameStart = () => {
