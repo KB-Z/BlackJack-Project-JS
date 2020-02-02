@@ -2,6 +2,16 @@ const cardSuits = ["Spades", "Clubs", "Diamons", "Hearts"];
 const cardValues = ["A","K","Q","J","10","9","8","7","6","5","4","3","2"];
 let cardDeck = new Array();
 
+let players = new Array();
+const createPlayers = (num) => {
+    players = new Array();
+    for (let i = 1; i <= num; i++) {
+        let hand = new Array();
+        let player = {Name: 'Player' + i, ID: i, Points: 0, Hand: hand};
+        players.push(player);        
+    }
+}
+
 const createDeck = () => {
     cardDeck = new Array();
     for (let i = 0; i < cardValues.length; i++) {
