@@ -68,7 +68,7 @@ const deckShuffle = () => {
 const deal = () => {
     for (let i = 0; i < 2; i++) {
         for (let x = 0; x < players.length; x++) {
-            let card = deck.pop();
+            let card = cardDeck.pop();
             players[x].Hand.push(card);
             renderCard(card,x);
             updatePoints();            
@@ -77,8 +77,24 @@ const deal = () => {
     updateDeck();
 };
 
+const getPoints = (player) => {
+    let points = 0;
+    for(var i = 0; i < players[player].Hand.length; i++) {
+        points += players[player].Hand[i].Weight;
+    }
+    players[player].Points = points;
+    return points;
+};
+
+const updatePoints = () => {
+    for (var i = 0 ; i < players.length; i++) {
+        getPoints(i);
+        document.getElementById('points_' + i).innerHTML = players[i].Points;
+    }
+};
+
 const hit = () => {
-    let card = deck.pop();
+    let card = cardDeck.pop();
     players[currentPlayer].Hand.push(card);
     renderCard(card, currentPlayer);
     updatePoints();
@@ -90,6 +106,16 @@ const check = () => {
         document.getElementById('satus').innerHTML = 'Player: ' + players[currentPlayer].ID + ' Lost';
     }
 };
+
+const updateDeck = () => {
+    document.getElementById('deckcount').innerHTML = deck.length;
+}
+
+window.addEventListener('load', function(){
+    createDeck();
+    deckShuffle();
+    createPlayers(1);
+});
 
 const stay = () => {
     if (currentPlayer != players.length-1) {
@@ -133,7 +159,7 @@ const gameStart = () => {
     createDeck();
     deckShuffle();
     createPlayers(2); // create 2 players for simple game
-    createPlayersUI();
+    playerUI();
     deal();
     document.getElementById('player_' + currentPlayer).classList.add('active');
 };
