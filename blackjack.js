@@ -76,6 +76,18 @@ const deal = () => {
     updateDeck();
 };
 
+const renderCard = (card, player) => {
+    let hand = document.getElementById('hand_' + player);
+    hand.appendChild(getCardUI(card));
+};
+
+const getCardUI = (card) => {
+    let cardUI = document.createElement('div');
+    cardUI.className = 'card';
+    cardUI.innterHTML = card.Suit + ' ' + card.Value;
+    return cardUI;
+};
+
 const gameStart = () => {
     document.getElementById('btnStart').value = 'Restart';
     document.getElementById('status').style.display="none";
