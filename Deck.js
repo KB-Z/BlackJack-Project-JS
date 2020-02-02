@@ -10,8 +10,11 @@ const createDeck = () => {
             if (cardValues[i] == "J" || cardValues[i] == "Q" || cardValues[i] == "K") {
                 weight = 10;
             }
-            
-        }
-        
+            if (cardValues[i] == "A") { //Need to come up with argument for Ace to have a value of 1
+                weight = 11;
+            }
+            let card = {Value: cardValues[i], Suit: cardSuits[x], Weight: weight };
+            cardDeck.push(card);            
+        }        
     }
-    }
+}
