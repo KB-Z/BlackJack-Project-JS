@@ -10,7 +10,31 @@ const createPlayers = (num) => {
         let player = {Name: 'Player' + i, ID: i, Points: 0, Hand: hand};
         players.push(player);        
     }
-}
+};
+
+const playerUI = () => {
+    document.getElementById('players').innerHTML = '';
+    for (let i = 0; i < players.length; i++) {
+
+        let playerDiv = document.createElement('div');
+        let playerIdDiv = document.createElement('div');
+        let handDiv = document.createElement('div');
+        let pointsDiv = document.createElement('div');
+
+        pointsDiv.className = 'points';
+        pointsDiv.id = 'points_' + i;
+        playerDiv.id = 'player_' + i;
+        playerDiv.className = 'player';
+        handDiv.id = 'hand_' + i;
+
+        playerIdDiv.innerHTML = players[i].ID;
+        playerDiv.appendChild(playerIdDiv);
+        playerDiv.appendChild(handDiv);
+        playerDiv.appendChild(pointsDiv);
+        document.getElementById('players').appendChild(playerDiv);     
+        
+    }
+};
 
 const createDeck = () => {
     cardDeck = new Array();
@@ -27,7 +51,7 @@ const createDeck = () => {
             cardDeck.push(card);            
         }        
     }
-}
+};
 
 const deckShuffle = () => {
     for (let i = 0; i < 100; i++) {
@@ -38,4 +62,16 @@ const deckShuffle = () => {
         cardDeck[selection1] = cardDeck[selection2];
         cardDeck[selection2] = selected;        
     }
-}
+};
+
+const gameStart = () => {
+    document.getElementById('btnStart').value = 'Restart';
+    document.getElementById('status').style.display="none";
+    currentPlayer = 0;
+    createDeck();
+    deckShuffle();
+    createPlayers(2); // create 2 players for simple game
+    createPlayersUI();
+    deal();
+    document.getElementById('player_' + currentPlayer).classList.add('active');
+};
