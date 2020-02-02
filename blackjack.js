@@ -104,7 +104,9 @@ const hit = () => {
 
 const check = () => {
     if (players[currentPlayer].Points > 21) {
-        document.getElementById('satus').innerHTML = 'Player: ' + players[currentPlayer].ID + ' Lost';
+        document.getElementById('status').innerHTML = 'Player: ' + players[currentPlayer].ID + ' Lost';
+        document.getElementById('status').style.display = "inline-block";
+        end();
     }
 };
 
@@ -139,6 +141,7 @@ const end = () => {
         score = players[i].Points;
     }
     document.getElementById('status').innterHTML = 'Winner: Player ' + players[winner].ID;
+    document.getElementById("status").style.display = "inline-block";
 };
 
 const renderCard = (card, player) => {
