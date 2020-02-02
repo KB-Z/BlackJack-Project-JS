@@ -1,8 +1,8 @@
 const cardSuits = ["Spades", "Clubs", "Diamons", "Hearts"];
 const cardValues = ["A","K","Q","J","10","9","8","7","6","5","4","3","2"];
 let cardDeck = new Array();
-
 let players = new Array();
+
 const createPlayers = (num) => {
     players = new Array();
     for (let i = 1; i <= num; i++) {
@@ -62,6 +62,18 @@ const deckShuffle = () => {
         cardDeck[selection1] = cardDeck[selection2];
         cardDeck[selection2] = selected;        
     }
+};
+
+const deal = () => {
+    for (let i = 0; i < 2; i++) {
+        for (let x = 0; x < players.length; x++) {
+            let card = deck.pop();
+            players[x].Hand.push(card);
+            renderCard(card,x);
+            updatePoints();            
+        }        
+    }
+    updateDeck();
 };
 
 const gameStart = () => {
