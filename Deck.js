@@ -18,3 +18,14 @@ const createDeck = () => {
         }        
     }
 }
+
+const deckShuffle = () => {
+    for (let i = 0; i < 100; i++) {
+        let selection1 = Math.floor((Math.random() * cardDeck.length));
+        let selection2 = Math.floor((Math.random() * cardDeck.length));
+        let selected = cardDeck[selection1];
+
+        cardDeck[selection1] = cardDeck[selection2];
+        cardDeck[selection2] = selected;        
+    }
+}
