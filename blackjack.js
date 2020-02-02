@@ -2,6 +2,7 @@ const cardSuits = ["Spades", "Clubs", "Diamons", "Hearts"];
 const cardValues = ["A","K","Q","J","10","9","8","7","6","5","4","3","2"];
 let cardDeck = new Array();
 let players = new Array();
+let currentPlayer = 0;
 
 const createPlayers = (num) => {
     players = new Array();
@@ -74,6 +75,20 @@ const deal = () => {
         }        
     }
     updateDeck();
+};
+
+const hit = () => {
+    let card = deck.pop();
+    players[currentPlayer].Hand.push(card);
+    renderCard(card, currentPlayer);
+    updatePoints();
+    check();
+};
+
+const check = () => {
+    if (players[currentPlayer].Points > 21) {
+        document.getElementById('satus').innerHTML = 'Player: ' + players[currentPlayer].ID + ' Lost';
+    }
 };
 
 const renderCard = (card, player) => {
