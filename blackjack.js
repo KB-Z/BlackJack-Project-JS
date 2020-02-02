@@ -149,7 +149,7 @@ const renderCard = (card, player) => {
 const getCardElement = (card) => {
     let cardElement = document.createElement('div');
     cardElement.className = 'card';
-    cardElement.innterHTML = card.Suit + ' ' + card.Value;
+    cardElement.innerHTML = card.Suit + '<br/>' + card.Value;
     return cardElement;
 };
 
