@@ -91,6 +91,29 @@ const check = () => {
     }
 };
 
+const stay = () => {
+    if (currentPlayer != players.length-1) {
+        document.getElementById('player_' + currentPlayer).classList.remove('active');
+        currentPlayer += 1;
+        document.getElementById('player_' + currentPlayer).classList.add('active');      
+    } else {
+        end();
+    }
+};
+
+const end = () => {
+    let winner = -1;
+    let score = 0;
+
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].Points > score && players[i].Points < 22) {
+            winner = i;
+        }
+        score = players[i].Points;
+    }
+    document.getElementById('status').innterHTML = 'Winner: Player ' + players[winner].ID;
+};
+
 const renderCard = (card, player) => {
     let hand = document.getElementById('hand_' + player);
     hand.appendChild(getCardUI(card));
