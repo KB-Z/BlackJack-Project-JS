@@ -59,7 +59,8 @@ const createDeck = () => {
                 weight = 11;
             }
             let card = {Value: cardValues[i], Suit: cardSuits[x], Weight: weight };
-            cardDeck.push(card);            
+            cardDeck.push(card);
+            //console.log(cardDeck);            
         }        
     }
 };
@@ -67,13 +68,14 @@ const createDeck = () => {
 // shuffle function, currently shuffles the deck 1000 times before each draw
 const deckShuffle = () => {
     for (let i = 0; i < 1000; i++) {
-        let selection1 = Math.floor((Math.random() * (cardDeck.length + 1)));
-        let selection2 = Math.floor((Math.random() * (cardDeck.length + 1)));
+        let selection1 = Math.floor((Math.random() * cardDeck.length));
+        let selection2 = Math.floor((Math.random() * cardDeck.length));
         let selected = cardDeck[selection1];
 
         cardDeck[selection1] = cardDeck[selection2];
         cardDeck[selection2] = selected;        
     }
+    //console.log(cardDeck);
 };
 
 
@@ -90,22 +92,39 @@ const deal = () => {
     updateDeck();
 };
 
-// points handler for UI/game logic
-const getPoints = (player) => {
-    let points = 0;
-    for(var i = 0; i < players[player].Hand.length; i++) {
-        points += players[player].Hand[i].Weight;
-    }
-    players[player].Points = points;
-    return points;
-};
-
 // function pulls points per player and writes to DOM
 const updatePoints = () => {
     for (var i = 0 ; i < players.length; i++) {
         getPoints(i);
         document.getElementById('points_' + i).innerHTML = players[i].Points;
     }
+};
+
+// points handler for UI/game logic
+const getPoints = (player) => {
+    let points = 0;
+    let ace = 0;
+    let hasAce = 0;
+    for(var i = 0; i < players[player].Hand.length; i++) {
+        if (players[player].Hand[i].Weight == 11) {
+            ace++;
+            points+=players[player].Hand[i].Weight
+            //console.log(players[player].Hand[i].Weight);
+            console.log(points);                     
+        } else {
+            points += players[player].Hand[i].Weight; 
+        }
+        if (points>21) {
+            if (ace >= 1) {
+                if (ace >= hasAce) {
+                    points-=10;
+                    hasAce++;
+                }
+            }            
+        }
+    }
+    players[player].Points = points;
+    return points;
 };
 
 // function for Hit button
