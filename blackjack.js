@@ -4,6 +4,14 @@ let cardDeck = new Array();
 let players = new Array();
 let currentPlayer = 0;
 
+// event listener for initial game start on page load
+window.addEventListener('load', function(){
+    createDeck();
+    deckShuffle();
+    createPlayers(1);
+});
+
+// player creation, could be expanded for additional players if desired
 const createPlayers = (num) => {
     players = new Array();
     for (let i = 1; i <= num; i++) {
@@ -13,6 +21,7 @@ const createPlayers = (num) => {
     }
 };
 
+// UI handler for players created
 const playerUI = () => {
     document.getElementById('players').innerHTML = '';
     for (let i = 0; i < players.length; i++) {
@@ -37,6 +46,7 @@ const playerUI = () => {
     }
 };
 
+// assignes value to face cards, currently does not account for situations where Ace is worth 1
 const createDeck = () => {
     cardDeck = new Array();
     for (let i = 0; i < cardValues.length; i++) {
@@ -45,7 +55,7 @@ const createDeck = () => {
             if (cardValues[i] == "J" || cardValues[i] == "Q" || cardValues[i] == "K") {
                 weight = 10;
             }
-            if (cardValues[i] == "A") { //Need to come up with argument for Ace to have a value of 1
+            if (cardValues[i] == "A") {
                 weight = 11;
             }
             let card = {Value: cardValues[i], Suit: cardSuits[x], Weight: weight };
@@ -54,10 +64,11 @@ const createDeck = () => {
     }
 };
 
+// shuffle function, currently shuffles the deck 1000 times before each draw
 const deckShuffle = () => {
-    for (let i = 0; i < 100; i++) {
-        let selection1 = Math.floor((Math.random() * cardDeck.length));
-        let selection2 = Math.floor((Math.random() * cardDeck.length));
+    for (let i = 0; i < 1000; i++) {
+        let selection1 = Math.floor((Math.random() * (cardDeck.length + 1)));
+        let selection2 = Math.floor((Math.random() * (cardDeck.length + 1)));
         let selected = cardDeck[selection1];
 
         cardDeck[selection1] = cardDeck[selection2];
@@ -65,6 +76,8 @@ const deckShuffle = () => {
     }
 };
 
+
+// intial deal of 2 cards per player
 const deal = () => {
     for (let i = 0; i < 2; i++) {
         for (let x = 0; x < players.length; x++) {
@@ -77,6 +90,7 @@ const deal = () => {
     updateDeck();
 };
 
+// points handler for UI/game logic
 const getPoints = (player) => {
     let points = 0;
     for(var i = 0; i < players[player].Hand.length; i++) {
@@ -86,6 +100,7 @@ const getPoints = (player) => {
     return points;
 };
 
+// function pulls points per player and writes to DOM
 const updatePoints = () => {
     for (var i = 0 ; i < players.length; i++) {
         getPoints(i);
@@ -93,6 +108,7 @@ const updatePoints = () => {
     }
 };
 
+// function for Hit button
 const hit = () => {
     let card = cardDeck.pop();
     players[currentPlayer].Hand.push(card);
@@ -102,24 +118,7 @@ const hit = () => {
     check();
 };
 
-const check = () => {
-    if (players[currentPlayer].Points > 21) {
-        document.getElementById('status').innerHTML = 'Player: ' + players[currentPlayer].ID + ' Lost';
-        document.getElementById('status').style.display = "inline-block";
-        end();
-    }
-};
-
-const updateDeck = () => {
-    document.getElementById('deckcount').innerHTML = cardDeck.length;
-}
-
-window.addEventListener('load', function(){
-    createDeck();
-    deckShuffle();
-    createPlayers(1);
-});
-
+// function for Stay button
 const stay = () => {
     if (currentPlayer != players.length-1) {
         document.getElementById('player_' + currentPlayer).classList.remove('active');
@@ -130,6 +129,21 @@ const stay = () => {
     }
 };
 
+// check for win condition
+const check = () => {
+    if (players[currentPlayer].Points > 21) {
+        document.getElementById('status').innerHTML = 'Player: ' + players[currentPlayer].ID + ' Lost';
+        document.getElementById('status').style.display = "inline-block";
+        end();
+    }
+};
+
+// UI handler for deck counter
+const updateDeck = () => {
+    document.getElementById('deckcount').innerHTML = cardDeck.length;
+};
+
+// end game function, checks for player going over 21
 const end = () => {
     let winner = -1;
     let score = 0;
@@ -144,11 +158,13 @@ const end = () => {
     document.getElementById("status").style.display = "inline-block";
 };
 
+// DOM render function for cards
 const renderCard = (card, player) => {
     let hand = document.getElementById('hand_' + player);
     hand.appendChild(getCardElement(card));
 };
 
+// DOM card element
 const getCardElement = (card) => {
     let cardElement = document.createElement('div');
     cardElement.className = 'card';
@@ -156,6 +172,7 @@ const getCardElement = (card) => {
     return cardElement;
 };
 
+// game logic to start the game
 const gameStart = () => {
     document.getElementById('btnStart').value = 'Restart';
     document.getElementById('status').style.display="none";
