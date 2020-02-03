@@ -100,31 +100,34 @@ const updatePoints = () => {
     }
 };
 
-// points handler for UI/game logic
+// points handler for UI/game logic, handles if ace should be valued as 1 or 11
 const getPoints = (player) => {
     let points = 0;
     let ace = 0;
     let hasAce = 0;
+
     for(var i = 0; i < players[player].Hand.length; i++) {
         if (players[player].Hand[i].Weight == 11) {
             ace++;
-            points+=players[player].Hand[i].Weight
+            points += players[player].Hand[i].Weight
             //console.log(players[player].Hand[i].Weight);
+            if (points > 21) {
+                if (ace >= 1) {
+                    if (ace >= hasAce) {
+                        points -= 10;
+                        hasAce++;
+                    } else {
+                        end();
+                    }
+                }            
+            }
             console.log(points);                     
         } else {
             points += players[player].Hand[i].Weight; 
         }
-        if (points>21) {
-            if (ace >= 1) {
-                if (ace >= hasAce) {
-                    points-=10;
-                    hasAce++;
-                }
-            }            
-        }
     }
     players[player].Points = points;
-    return points;
+    //return points;
 };
 
 // function for Hit button
@@ -139,20 +142,11 @@ const hit = () => {
 
 // function for Stay button
 const stay = () => {
-    if (currentPlayer != players.length-1) {
+    if (currentPlayer != players.length - 1) {
         document.getElementById('player_' + currentPlayer).classList.remove('active');
         currentPlayer += 1;
         document.getElementById('player_' + currentPlayer).classList.add('active');      
     } else {
-        end();
-    }
-};
-
-// check for win condition
-const check = () => {
-    if (players[currentPlayer].Points > 21) {
-        document.getElementById('status').innerHTML = 'Player: ' + players[currentPlayer].ID + ' Lost';
-        document.getElementById('status').style.display = "inline-block";
         end();
     }
 };
@@ -174,7 +168,16 @@ const end = () => {
         score = players[i].Points;
     }
     document.getElementById('status').innterHTML = 'Winner: Player ' + players[winner].ID;
-    document.getElementById("status").style.display = "inline-block";
+    document.getElementById('status').style.display = "inline-block";
+};
+
+// check for win condition
+const check = () => {
+    if (players[currentPlayer].Points > 21) {
+        document.getElementById('status').innerHTML = 'Player: ' + players[currentPlayer].ID + ' Lost';
+        document.getElementById('status').style.display = "inline-block";
+        end();
+    }
 };
 
 // DOM render function for cards
