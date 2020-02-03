@@ -109,24 +109,22 @@ const getPoints = (player) => {
     for(var i = 0; i < players[player].Hand.length; i++) {
         if (players[player].Hand[i].Weight == 11) {
             ace++;
-            points += players[player].Hand[i].Weight
-            //console.log(players[player].Hand[i].Weight);
-            if (points > 21) {
-                if (ace >= 1) {
-                    if (ace >= hasAce) {
-                        points -= 10;
-                        hasAce++;
-                    } else {
-                        end();
-                    }
-                }            
-            }
-            console.log(points);                     
+            points += players[player].Hand[i].Weight;
         } else {
-            points += players[player].Hand[i].Weight; 
+        points += players[player].Hand[i].Weight;
+        //console.log("Non-Ace Points " + points);
+        }             
+    }
+    if (ace >= 1) {
+        if (hasAce >= 1 || points > 21) {
+            points -= 10;
+            hasAce++;
         }
     }
     players[player].Points = points;
+    //console.log("Aces " + ace);    
+    //console.log("Total Points " + points);
+    
     //return points;
 };
 
