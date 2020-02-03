@@ -124,8 +124,6 @@ const getPoints = (player) => {
     players[player].Points = points;
     //console.log("Aces " + ace);    
     //console.log("Total Points " + points);
-    
-    //return points;
 };
 
 // function for Hit button
@@ -165,7 +163,7 @@ const end = () => {
         }
         score = players[i].Points;
     }
-    document.getElementById('status').innterHTML = 'Winner: Player ' + players[winner].ID;
+    document.getElementById('status').innerHTML = 'Winner: Player ' + players[winner].ID;
     document.getElementById('status').style.display = "inline-block";
 };
 
@@ -187,8 +185,20 @@ const renderCard = (card, player) => {
 // DOM card element
 const getCardElement = (card) => {
     let cardElement = document.createElement('div');
+    let icon = '';
+
+    if (card.Suit == 'Hearts') {
+        icon ='&hearts;';
+    } else if (card.Suit == 'Spades') {
+        icon = '&spades;';
+    } else if (card.Suit == 'Diamonds') {
+        icon = '&diams;';
+    } else {
+        icon = '&clubs;';
+    }
+
     cardElement.className = 'card';
-    cardElement.innerHTML = card.Suit + '<br/>' + card.Value;
+    cardElement.innerHTML = card.Value + '<br/>' + icon;
     return cardElement;
 };
 
